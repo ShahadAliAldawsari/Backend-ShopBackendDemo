@@ -33,7 +33,7 @@ public class Order {
             throw new IllegalArgumentException("The Order is empty!");
         if (min(orderItems.values())<1)
             throw new IllegalArgumentException("The quantity should be more than 0!");
-        this.orderItems = orderItems;
+        this.orderItems = new HashMap<>(orderItems); //a defensive copy
     }
 
     public void addItem(Product product, Integer quantity){
