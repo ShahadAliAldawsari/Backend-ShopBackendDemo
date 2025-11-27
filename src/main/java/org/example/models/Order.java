@@ -30,18 +30,19 @@ public class Order {
 
     public void setOrderItems(Map<Product, Integer> orderItems) {
         if (orderItems==null || orderItems.isEmpty())
-            throw new IllegalArgumentException("The Order is empty!");
+            throw new IllegalArgumentException("Order must contain at least one product!");
         if (min(orderItems.values())<1)
             throw new IllegalArgumentException("The quantity should be more than 0!");
         this.orderItems = new HashMap<>(orderItems); //a defensive copy
     }
 
     public void addItem(Product product, Integer quantity){
-        if(!(quantity>0))
-            throw new IllegalArgumentException("The quantity should be more than 0!");
         if(product==null)
             throw new IllegalArgumentException("The Product is empty!");
-        orderItems.put(product, quantity);
+        if(!(quantity>0))
+            throw new IllegalArgumentException("The quantity should be more than 0!");
+        //orderItems.put(product, quantity);//it does not tchick if the product is already exist
+        orderItems.merge(product, quantity, Integer::sum);//if the product exists it will just increase the quantity
 
     }
 
